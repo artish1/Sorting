@@ -1,10 +1,25 @@
 # TO-DO: complete the helpe function below to merge 2 sorted arrays
-def merge(arrA, arrB):
-    elements = len(arrA) + len(arrB)
-    merged_arr = [0] * elements
-    # TO-DO
+def merge(lefthalf, righthalf, orig_array):
+    i = j = k = 0
+    while i < len(lefthalf) and j < len(righthalf):
+        if lefthalf[i] < righthalf[j]:
+            orig_array[k] = lefthalf[i]
+            i = i + 1
+        else:
+            orig_array[k] = righthalf[j]
+            j = j + 1
+        k = k + 1
 
-    return merged_arr
+    while i < len(lefthalf):
+        orig_array[k] = lefthalf[i]
+        i = i + 1
+        k = k + 1
+
+    while j < len(righthalf):
+        orig_array[k] = righthalf[j]
+        j = j + 1
+        k = k + 1
+    return orig_array
 
 
 # TO-DO: implement the Merge Sort function below USING RECURSION
@@ -13,20 +28,18 @@ def merge_sort(arr):
 
     # Seperate lists into 1 length arrays first
     length = len(arr)
-    if length != 1:
+    if length > 1:
         middle = length // 2
-        split_arr1 = arr[:middle]
-        split_arr2 = arr[middle:]
-        merge_sort(split_arr1)
-        merge_sort(split_arr2)
+        lefthalf = arr[:middle]
+        righthalf = arr[middle:]
+        merge_sort(lefthalf)
+        merge_sort(righthalf)
 
         # Use merge helper function to join the 2 arrays in a sorted way.
-        merge(split_arr1, split_arr2)
+        arr = merge(lefthalf, righthalf, arr)
 
     return arr
 
-
-merge_sort([3, 2, 4, 5, 6, 7, 8, 1, 1])
 
 # STRETCH: implement an in-place merge sort algorithm
 def merge_in_place(arr, start, mid, end):
